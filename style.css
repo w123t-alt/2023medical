@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffffff; /* 改为白色背景，增加对比度 */
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  color: #000000; /* 确保文本为黑色 */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #000000; /* 确保标题为黑色 */
+  font-size: 36px; /* 增加字体大小 */
+  font-weight: bold;
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 200px;
+  border: 1px solid #ccc; /* 添加边框以便于查看容器位置 */
+  padding: 10px;
+}
+
+.post {
+  background-color: #6ebd42; /* 绿色，与示例风格一致 */
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000; /* 确保post文本为黑色 */
+  border: 1px solid #000; /* 添加边框 */
+}
