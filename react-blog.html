@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王婷的博客 - React前端</title>
+    <!-- React 和 ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 全局样式 -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .card {
+            margin-bottom: 2rem;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .card-title:hover {
+            color: #0d6efd;
+        }
+        
+        .card-text {
+            flex-grow: 1;
+        }
+        
+        .banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar h4 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #0d6efd;
+            font-weight: 600;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .sidebar a {
+            color: #495057;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar a:hover {
+            color: #0d6efd;
+        }
+        
+        .sidebar-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: #495057;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+        
+        footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- React根元素 -->
+    <div id="root"></div>
+
+    <!-- React组件 -->
+    <script type="text/babel">
+        // 导航栏组件
+        const Navbar = () => (
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                <div className="container">
+                    <a className="navbar-brand" href="#">王婷的博客</a>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="切换导航">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
+                                <a className="nav-link active" aria-current="page" href="#">首页</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">分类</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">关于</a>
+                            </li>
+                        </ul>
+                        <button className="btn btn-outline-light d-lg-none" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
+                            <i className="fas fa-search"></i>
+                        </button>
+                        <form className="d-none d-lg-block" onSubmit={(e) => {
+                            e.preventDefault();
+                            const searchValue = e.target.querySelector('input').value;
+                            if (searchValue) {
+                                console.log('搜索:', searchValue);
+                                alert(`搜索: ${searchValue}`);
+                            }
+                        }}>
+                            <div className="input-group">
+                                <input type="text" className="form-control" placeholder="搜索文章..." />
+                                <button className="btn btn-outline-light" type="submit">
+                                    <i className="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        );
+
+        // 横幅组件
+        const Banner = () => (
+            <section className="banner text-center">
+                <div className="container">
+                    <h1>欢迎来到王婷的博客</h1>
+                    <p>探索技术的海洋，分享生活的点滴，记录学习的旅程。</p>
+                    <div className="search-bar w-75 mx-auto mt-4">
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            const searchValue = e.target.querySelector('input').value;
+                            if (searchValue) {
+                                console.log('搜索:', searchValue);
+                                alert(`搜索: ${searchValue}`);
+                            }
+                        }}>
+                            <div className="input-group">
+                                <input type="text" className="form-control" placeholder="搜索感兴趣的文章..." />
+                                <button className="btn btn-light" type="submit">
+                                    <i className="fas fa-search"></i> 搜索
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        );
+
+        // 文章卡片组件
+        const ArticleCard = ({ article }) => (
+            <div className="col-md-6 mb-4">
+                <div className="card">
+                    <img src={article.imageUrl} className="card-img-top" alt={article.title} />
+                    <div className="card-body">
+                        <h5 className="card-title"><a href="#">{article.title}</a></h5>
+                        <h6 className="card-subtitle mb-2"><i className="far fa-calendar-alt"></i> {article.date} · <i className="far fa-eye"></i> {article.views}次阅读</h6>
+                        <p className="card-text">{article.summary}</p>
+                        <div className="mb-3">
+                            {article.tags.map((tag, index) => (
+                                <a key={index} href="#" className="tag"><i className="fas fa-tag"></i> {tag}</a>
+                            ))}
+                        </div>
+                        <a href="#" className="btn btn-primary">阅读全文 <i className="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // 关于博主组件
+        const AuthorInfo = () => (
+            <div className="sidebar">
+                <h4><i className="fas fa-user"></i> 关于博主</h4>
+                <div className="text-center mb-3">
+                    <img src="https://picsum.photos/id/64/200/200" alt="博主头像" className="rounded-circle" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+                </div>
+                <h5 className="text-center mb-2">王婷</h5>
+                <p className="text-center mb-3 text-muted">20231201079</p>
+                <p className="text-center">热爱技术、乐于分享的开发者。专注于Web开发、数据科学和人工智能领域。</p>
+                <div className="text-center">
+                    <a href="#" className="btn btn-primary btn-sm mx-1"><i className="fab fa-github"></i></a>
+                    <a href="#" className="btn btn-primary btn-sm mx-1"><i className="fab fa-twitter"></i></a>
+                    <a href="#" className="btn btn-primary btn-sm mx-1"><i className="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        );
+
+        // 热门文章组件
+        const PopularArticles = ({ articles }) => (
+            <div className="sidebar">
+                <h4><i className="fas fa-fire"></i> 热门文章</h4>
+                <ul>
+                    {articles.map((article, index) => (
+                        <li key={index}>
+                            <a href="#">
+                                <span className="sidebar-icon"><i className="fas fa-chevron-right"></i></span>
+                                {article.title}
+                                <span className="badge bg-primary rounded-pill ml-2">{article.views}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+
+        // 文章分类组件
+        const Categories = ({ categories }) => (
+            <div className="sidebar">
+                <h4><i className="fas fa-folder"></i> 文章分类</h4>
+                <ul>
+                    {categories.map((category, index) => (
+                        <li key={index}>
+                            <a href="#">
+                                <span className="sidebar-icon"><i className="fas fa-folder-open"></i></span>
+                                {category.name}
+                                <span className="badge bg-secondary rounded-pill ml-auto">{category.count}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+
+        // 热门标签组件
+        const Tags = ({ tags }) => (
+            <div className="sidebar">
+                <h4><i className="fas fa-tags"></i> 热门标签</h4>
+                {tags.map((tag, index) => (
+                    <a key={index} href="#" className="tag">{tag}</a>
+                ))}
+            </div>
+        );
+
+        // 页脚组件
+        const Footer = () => (
+            <footer>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-4 mb-4">
+                            <h4>关于博客</h4>
+                            <p>王婷的个人技术博客，致力于分享Web开发、数据科学和人工智能领域的知识和见解。</p>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <h4>快速链接</h4>
+                            <ul className="list-unstyled">
+                                <li><a href="#" className="text-white text-decoration-none">首页</a></li>
+                                <li><a href="#" className="text-white text-decoration-none">分类</a></li>
+                                <li><a href="#" className="text-white text-decoration-none">关于我</a></li>
+                                <li><a href="#" className="text-white text-decoration-none">联系方式</a></li>
+                            </ul>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <h4>订阅博客</h4>
+                            <p>输入您的邮箱地址，获取最新文章推送。</p>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                const email = e.target.querySelector('input').value;
+                                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                                    alert(`感谢订阅！确认邮件已发送至: ${email}`);
+                                    e.target.querySelector('input').value = '';
+                                } else {
+                                    alert('请输入有效的邮箱地址');
+                                }
+                            }}>
+                                <div className="input-group mb-3">
+                                    <input type="email" className="form-control" placeholder="您的邮箱地址" />
+                                    <button className="btn btn-primary" type="submit">订阅</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div className="border-top border-gray-700 pt-4">
+                        <p>&copy; 2025 王婷的博客. 保留所有权利.</p>
+                        <p className="text-gray-400">学号: 20231201079</p>
+                    </div>
+                </div>
+            </footer>
+        );
+
+        // 主应用组件
+        const App = () => {
+            // 文章数据
+            const articles = [
+                {
+                    id: 1,
+                    title: "Django框架入门指南",
+                    date: "2025-09-20",
+                    views: "1,245",
+                    summary: "本文介绍了Django框架的基础概念、安装配置以及创建第一个Django项目的详细步骤，适合初学者快速上手。",
+                    tags: ["Django", "Web开发"],
+                    imageUrl: "https://picsum.photos/id/237/600/400"
+                },
+                {
+                    id: 2,
+                    title: "Python数据可视化实战",
+                    date: "2025-09-15",
+                    views: "987",
+                    summary: "通过实际案例讲解如何使用Matplotlib和Seaborn库创建各种精美的数据可视化图表，提升数据分析能力。",
+                    tags: ["Python", "数据可视化"],
+                    imageUrl: "https://picsum.photos/id/239/600/400"
+                },
+                {
+                    id: 3,
+                    title: "现代前端开发趋势",
+                    date: "2025-09-10",
+                    views: "1,562",
+                    summary: "探讨当前前端开发领域的热门技术和发展趋势，包括框架选择、构建工具和最佳实践等方面的内容。",
+                    tags: ["前端", "技术趋势"],
+                    imageUrl: "https://picsum.photos/id/240/600/400"
+                },
+                {
+                    id: 4,
+                    title: "人工智能在医疗领域的应用",
+                    date: "2025-09-05",
+                    views: "2,103",
+                    summary: "探索人工智能技术如何革新医疗行业，从疾病诊断到个性化治疗方案，以及未来发展方向。",
+                    tags: ["人工智能", "医疗"],
+                    imageUrl: "https://picsum.photos/id/241/600/400"
+                }
+            ];
+
+            // 分类数据
+            const categories = [
+                { name: "技术教程", count: 15 },
+                { name: "前端开发", count: 8 },
+                { name: "后端开发", count: 12 },
+                { name: "人工智能", count: 6 },
+                { name: "数据科学", count: 9 }
+            ];
+
+            // 标签数据
+            const tags = ["Python", "Django", "JavaScript", "React", "前端", "后端", "人工智能", "数据可视化", "Web开发", "技术趋势"];
+
+            // 加载更多功能
+            const handleLoadMore = () => {
+                alert('已加载所有文章');
+            };
+
+            return (
+                <div>
+                    <Navbar />
+                    <Banner />
+                    <section className="container">
+                        <div className="row">
+                            {/* 文章列表区域 */}
+                            <div className="col-lg-8">
+                                <div className="mb-4">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h2 className="h3 mb-0">最新文章</h2>
+                                        <div className="dropdown">
+                                            <button className="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i className="fas fa-sort"></i> 排序
+                                            </button>
+                                            <ul className="dropdown-menu" aria-labelledby="sortDropdown">
+                                                <li><a className="dropdown-item" href="#">最新发布</a></li>
+                                                <li><a className="dropdown-item" href="#">最早发布</a></li>
+                                                <li><a className="dropdown-item" href="#">最受欢迎</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="row">
+                                    {articles.map(article => (
+                                        <ArticleCard key={article.id} article={article} />
+                                    ))}
+                                </div>
+                                
+                                <div className="text-center mt-4">
+                                    <button className="btn btn-outline-primary" onClick={handleLoadMore}>
+                                        <i className="fas fa-spinner"></i> 加载更多
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            {/* 侧边栏 */}
+                            <div className="col-lg-4">
+                                <AuthorInfo />
+                                <PopularArticles articles={articles.slice().sort((a, b) => parseInt(b.views.replace(',', '')) - parseInt(a.views.replace(',', '')))}/>
+                                <Categories categories={categories} />
+                                <Tags tags={tags} />
+                            </div>
+                        </div>
+                    </section>
+                    <Footer />
+                </div>
+            );
+        };
+
+        // 渲染应用 (React 18方式)
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        );
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
