@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>词条详情 - 百度百科简易平台</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <style>
+        .nav { margin: 10px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .entry-item { border: 1px solid #eee; padding: 10px; margin: 10px 0; }
+        .entry-detail { margin: 20px 0; padding: 20px; border: 1px solid #eee; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="entry_list.html">词条列表</a>
+        <a href="entry_form.html">创建词条</a>
+    </div>
+    <div id="app">
+        <div class="entry-detail">
+            <h1>{{ entry.title }}</h1>
+            <p>分类：{{ entry.category.name }} · 创建时间：{{ entry.create_time }}</p>
+            <p>{{ entry.content }}</p>
+            <a href="entry_form.html">编辑词条</a>
+            <a href="entry_list.html" style="margin-left: 15px;">返回列表</a>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                entry: {
+                    title: "Python编程语言",
+                    category: { name: "编程语言" },
+                    create_time: "2023-06-15 10:30:00",
+                    content: "Python是一种广泛使用的解释型、高级和通用的编程语言。Python支持多种编程范式，包括结构化、面向对象和函数式编程。它的语言结构和动态类型系统被设计为促进代码的可读性和简洁的语法，特别是使用空格缩进而不是大括号或关键词来定义代码块。Python解释器可用于许多操作系统，允许Python代码在各种环境中运行。Python是由荷兰程序员吉多·范罗苏姆创建的，并于1991年首次发布。它的设计哲学强调代码的可读性和简洁性，这使得它成为初学者和专业开发者的理想选择。"
+                }
+            }
+        })
+    </script>
+</body>
+</html>

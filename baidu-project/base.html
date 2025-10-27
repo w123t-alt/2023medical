@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}百度百科简易平台{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <style>
+        .nav { margin: 10px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .entry-item { border: 1px solid #eee; padding: 10px; margin: 10px 0; }
+        .entry-detail { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="entry_list.html">词条列表</a >
+        <a href="entry_form.html">创建词条</a >
+    </div>
+    <div id="content">
+        <!-- 内容将在此显示 -->
+    </div>
+</body>
+</html>
